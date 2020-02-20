@@ -30,4 +30,20 @@ module Enumerable
       p test_all
     end
     
+    def my_any?(param = nil)
+      result=false
+      if block_given? && param.nil?
+        self.my_each{|i| return true if yield(i)}
+      elsif param.nil?
+        self.my_each do |i|
+          return true if (i==true)
+        end
+      elsif param.is_a? Class
+        self.my_each do |i|
+        return true if (i.is_a?(param))
+        end
+      end
+      result
+    end
+    
 end
