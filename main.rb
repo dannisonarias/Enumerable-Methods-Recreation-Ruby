@@ -81,19 +81,12 @@ module Enumerable
     count
   end
 
-  def my_map
-    count = 0
-    unless param.nil?
-      for num in 0..self.length
-        count += 1 if self[num] == param
-      end
-    end
+  def my_map(block = nil)
+    result_array = []
     if block_given?
-      count += 1 if my_each { |i| yield(i) }
-    elsif param.nil?
-      return self.length
+    my_each { |i| result_array.push(yield(i)) }
+    result_array
     end
-    count
   end
   
   def my_reduce(init = nil, sym = nil)
@@ -109,6 +102,21 @@ module Enumerable
     total
   end
 end
+
+  #map
+  p 'start map'
+  p test_arr.map {|num| num * 10 }
+  test_block = Proc.new {|elem| elem * 10}
+  p test_arr.map(&test_block)
+  p 'my map'
+  p test_arr.my_map {|num| num * 10 }
+  p test_arr.my_map(&test_block)
+  
+  #reduce
+  p 'start reduce'
+  p test_arr.reduce {|result,elem| result + elem}
+  p 'myreduce'
+  p test_arr.my_inject {|result,elem| result + elem}
 
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength:
