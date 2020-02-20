@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength:
-
 module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
@@ -71,7 +70,7 @@ module Enumerable
       for num in 0...self.length
         count += 1 if self[num] == param
         end
-      end
+    end
     if block_given?
       for num in 0...self.length
         count += 1 if yield(self[num])
@@ -90,22 +89,22 @@ module Enumerable
       end
     end
     if block_given?
-      count += 1 if my_each{ |i| yield(i) } 
-    elsif param.nil? 
+      count += 1 if my_each { |i| yield(i) }
+    elsif param.nil?
       return self.length
     end
     count
   end
   
-  def my_reduce(init = nil,sym = nil)
+  def my_reduce(init = nil, sym = nil)
     total = 0
     unless init.nil?
-       total = init
+      total = init
     end
-    if sym.nil? and !block_given?
-      each{ |k| total += k }
-    elsif sym.nil? and block_given?
-      each { |k| yield(total , k) }
+    if sym.nil? && !block_given?
+      each { |k| total += k }
+    elsif sym.nil? && block_given?
+      each { |k| yield(total, k) }
     end
     total
   end
