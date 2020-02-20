@@ -29,12 +29,12 @@ module Enumerable
     result
   end
 
-  def my_all
-    return to_enum :my_all unless block_given?
+  def my_all?
+    return to_enum :my_all? unless block_given?
 
     test_all = true
     my_each { |i| test_all = false unless yield(i) }
-    p test_all
+    test_all
   end
 
   def my_any?(param = nil)
@@ -62,22 +62,24 @@ module Enumerable
     else
       result = false if my_any?
     end
+    result
   end
 
   def my_count(param = nil)
     count = 0
     unless param.nil?
-      for num in 0..self.length
+      for num in 0...self.length
         count += 1 if self[num] == param
+        end
       end
-    end
     if block_given?
-      p my_each
-      count += 1 if my_each{ |i| yield(i) } 
-    elsif param.nil? 
+      for num in 0...self.length
+        count += 1 if yield(self[num])
+      end
+    elsif param.nil?
       return self.length
     end
-    p count
+    count
   end
 
   def my_map
@@ -88,18 +90,26 @@ module Enumerable
       end
     end
     if block_given?
-      p my_each
       count += 1 if my_each{ |i| yield(i) } 
     elsif param.nil? 
       return self.length
     end
-    p count
+    count
   end
-
-
+  
+  def my_reduce(init = nil,sym = nil)
+    total = 0
+    unless init.nil?
+       total = init
+    end
+    if sym.nil? and !block_given?
+      each{ |k| total += k }
+    elsif sym.nil? and block_given?
+      each { |k| yield(total , k) }
+    end
+    total
+  end
 end
 
-a = %w[ a b c d e f ]
-p a.my_select {|v| v =~ /[aeiou]/ }
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength:
