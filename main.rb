@@ -89,7 +89,7 @@ module Enumerable
     end
   end
   
-  def my_reduce(init = nil, sym = nil)
+  def my_inject(init = nil, sym = nil)
     total = 0
     unless init.nil?
       total = init
@@ -97,7 +97,7 @@ module Enumerable
     if sym.nil? && !block_given?
       each { |k| total += k }
     elsif sym.nil? && block_given?
-      each { |k| yield(total, k) }
+      each { |k| total = yield(total, k) }
     end
     total
   end
