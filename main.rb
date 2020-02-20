@@ -102,21 +102,5 @@ module Enumerable
     total
   end
 end
-
-  #map
-  p 'start map'
-  p test_arr.map {|num| num * 10 }
-  test_block = Proc.new {|elem| elem * 10}
-  p test_arr.map(&test_block)
-  p 'my map'
-  p test_arr.my_map {|num| num * 10 }
-  p test_arr.my_map(&test_block)
-  
-  #reduce
-  p 'start reduce'
-  p test_arr.reduce {|result,elem| result + elem}
-  p 'myreduce'
-  p test_arr.my_inject {|result,elem| result + elem}
-
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength:
