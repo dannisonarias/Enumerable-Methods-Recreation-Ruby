@@ -46,4 +46,14 @@ module Enumerable
       result
     end
     
+    def my_none?(param = nil)
+      result = true
+      if block_given?
+        self.my_each{|i| result = false if yield(i)}
+      else
+      result = false if self.my_any?
+      end
+    end
+    
+    
 end
