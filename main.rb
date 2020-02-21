@@ -2,7 +2,9 @@
 
 # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength:
+# rubocop:disable Metrics/AbcSize
 
+# This module is a creation of the original Enumerable
 module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
@@ -117,5 +119,5 @@ module Enumerable
   end
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-
+# rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/MethodLength:
