@@ -1,4 +1,4 @@
-# Recreation of Enumerable Methods
+# Recreation of Enumerable Methods inside the Enumerable Module
 
 > 
 
