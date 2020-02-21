@@ -50,10 +50,14 @@ module Enumerable
     result
   end
 
-  def my_none?(_param = nil)
+  def my_none?(param = nil)
     result = true
     if block_given?
       my_each { |i| result = false if yield(i) }
+    elsif param.is_a? Regexp
+      my_each { |num| result = false if num =~ param }
+    elsif param.is_a? Class
+      my_each { |num| result = false if num.is_a? param }
     else
       result = false if my_any?
     end
@@ -73,7 +77,7 @@ module Enumerable
     count
   end
 
-  def my_map(*)
+  def my_map
     result_array = []
     my_each { |i| result_array.push(yield(i)) }
     result_array
