@@ -1,4 +1,8 @@
 # frozen_string_literal: true
+
+# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength:
+
 module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
@@ -27,7 +31,6 @@ module Enumerable
   end
 
   def my_all?(param = nil)
-
     test_all = true
     if block_given? && param.nil?
       my_each { |i| test_all = false unless yield(i) }
@@ -43,10 +46,6 @@ module Enumerable
       end
       test_all
     end
-    test_all
-  end
-
-    my_each { |i| test_all = false unless yield(i) }
     test_all
   end
 
@@ -102,6 +101,8 @@ module Enumerable
 
   def my_inject(init = nil, sym = nil)
     total = 0
+    total = self[0] if init.nil?
+    shift if init.nil?
     total = init unless init.nil?
     if sym.nil? && !block_given?
       each { |k| total += k }
@@ -110,6 +111,11 @@ module Enumerable
     end
     total
   end
+
+  def multiply_els
+    my_inject { |total, value| total * value }
+  end
 end
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+
 # rubocop:enable Metrics/MethodLength:
