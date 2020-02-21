@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength:
 module Enumerable
@@ -24,10 +25,25 @@ module Enumerable
     result
   end
 
-  def my_all?
+  def my_all?(param = nil)
     return to_enum :my_all? unless block_given?
 
     test_all = true
+    if block_given? && param.nil?
+      my_each { |i| test_all = false unless yield(i) }
+    elsif param.is_a? Regexp
+      my_each { |i| test_all = false unless i =~ param }
+    elsif param.nil?
+      my_each do |i|
+        test_all = false unless i == true
+      end
+    elsif param.is_a? Class
+      my_each do |i|
+        test_all = false unless i.is_a?(param)
+      end
+      test_all
+    end
+
     my_each { |i| test_all = false unless yield(i) }
     test_all
   end
@@ -36,7 +52,7 @@ module Enumerable
     result = false
     if block_given? && param.nil?
       my_each { |i| return true if yield(i) }
-    elsif val.is_a? Regexp
+    elsif param.is_a? Regexp
       my_each { |num| result = true if num =~ param }
     elsif param.nil?
       my_each do |i|
@@ -82,12 +98,10 @@ module Enumerable
     my_each { |i| result_array.push(yield(i)) }
     result_array
   end
-  
+
   def my_inject(init = nil, sym = nil)
     total = 0
-    unless init.nil?
-      total = init
-    end
+    total = init unless init.nil?
     if sym.nil? && !block_given?
       each { |k| total += k }
     elsif sym.nil? && block_given?
