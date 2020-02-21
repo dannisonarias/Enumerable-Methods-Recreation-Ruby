@@ -75,8 +75,8 @@ module Enumerable
 
   def my_map(*)
     result_array = []
-    return unless block_given? { my_each { |i| result_array.push(yield(i)) } }
-        result_array
+    my_each { |i| result_array.push(yield(i)) }
+    result_array
   end
   
   def my_inject(init = nil, sym = nil)
