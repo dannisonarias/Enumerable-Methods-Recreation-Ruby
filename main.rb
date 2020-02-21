@@ -6,7 +6,9 @@ module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
 
-    length.times { |i| yield(self[i]) }
+    a = self
+    a = *self if self.is_a? Range
+    a.length.times { |i| yield(a[i]) }
     self
   end
 
