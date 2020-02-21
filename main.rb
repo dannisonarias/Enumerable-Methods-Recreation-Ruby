@@ -5,18 +5,14 @@ module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
 
-    for i in 0...self.length
-      yield(self[i])
-    end
+    length.times { |i| yield(self[i]) }
     self
   end
 
   def my_each_with_index
     return to_enum :my_each_with_index unless block_given?
 
-    for i in 0...self.length
-      yield(i, self[i])
-    end
+    length.times { |i| yield(i, self[i]) }
     self
   end
 
@@ -67,26 +63,20 @@ module Enumerable
   def my_count(param = nil)
     count = 0
     unless param.nil?
-      for num in 0...self.length
-        count += 1 if self[num] == param
-        end
+      length.times { |num| count += 1 if self[num] == param }
     end
     if block_given?
-      for num in 0...self.length
-        count += 1 if yield(self[num])
-      end
+      length.times { |num| count += 1 if yield(self[num]) }
     elsif param.nil?
-      return self.length
+      return length
     end
     count
   end
 
-  def my_map(block = nil)
+  def my_map(*)
     result_array = []
-    if block_given?
-    my_each { |i| result_array.push(yield(i)) }
-    result_array
-    end
+    return unless block_given? { my_each { |i| result_array.push(yield(i)) } }
+        result_array
   end
   
   def my_inject(init = nil, sym = nil)
