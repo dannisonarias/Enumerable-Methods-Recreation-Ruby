@@ -1,24 +1,21 @@
 # frozen_string_literal: true
-
-# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/MethodLength:
 module Enumerable
   def my_each
     return to_enum :my_each unless block_given?
 
     a = self
-    a = *self if self.is_a? Range
+    a = *self if is_a? Range
     a.length.times { |i| yield(a[i]) }
-    self
+    a
   end
 
   def my_each_with_index
     return to_enum :my_each_with_index unless block_given?
 
     a = self
-    a = *self if self.is_a? Range
+    a = *self if is_a? Range
     a.length.times { |i| yield(i, a[i]) }
-    self
+    a
   end
 
   def my_select
@@ -30,7 +27,6 @@ module Enumerable
   end
 
   def my_all?(param = nil)
-    return to_enum :my_all? unless block_given?
 
     test_all = true
     if block_given? && param.nil?
@@ -47,6 +43,8 @@ module Enumerable
       end
       test_all
     end
+    test_all
+  end
 
     my_each { |i| test_all = false unless yield(i) }
     test_all
@@ -72,14 +70,13 @@ module Enumerable
 
   def my_none?(param = nil)
     result = true
+    result = false if my_any?
     if block_given?
       my_each { |i| result = false if yield(i) }
     elsif param.is_a? Regexp
       my_each { |num| result = false if num =~ param }
     elsif param.is_a? Class
       my_each { |num| result = false if num.is_a? param }
-    else
-      result = false if my_any?
     end
     result
   end
