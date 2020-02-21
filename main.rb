@@ -15,7 +15,9 @@ module Enumerable
   def my_each_with_index
     return to_enum :my_each_with_index unless block_given?
 
-    length.times { |i| yield(i, self[i]) }
+    a = self
+    a = *self if self.is_a? Range
+    a.length.times { |i| yield(i, a[i]) }
     self
   end
 
