@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/MethodLength:
-# rubocop:disable Metrics/AbcSize
 
 # This module is a creation of the original Enumerable
 module Enumerable
@@ -20,7 +18,7 @@ module Enumerable
 
     a = self
     a = *self if is_a? Range
-    a.length.times { |i| yield(i, a[i]) }
+    a.length.times { |i| yield(a[i], i) }
     a
   end
 
@@ -34,7 +32,10 @@ module Enumerable
 
   def my_all?(param = nil)
     test_all = true
-    if block_given? && param.nil?
+
+    if !block_given? && param.nil?
+      my_each { |i| test_all = false unless i == false || nil }
+    elsif block_given? && param.nil?
       my_each { |i| test_all = false unless yield(i) }
     elsif param.is_a? Regexp
       my_each { |i| test_all = false unless i =~ param }
@@ -82,7 +83,7 @@ module Enumerable
     result
   end
 
-  def my_count(param = nil)
+  def my_count(param = nil)  
     count = 0
     unless param.nil?
       length.times { |num| count += 1 if self[num] == param }
@@ -118,6 +119,19 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
+p %w[ant bear cat].all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].all? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].all?(/t/) #=> false
+p [1, 2i, 3.14].all?(Numeric) #=> true
+p [nil, true, 99].all? #=> false
+p [].all? # true
+p [1, true, 'hi', []].all? # true
+p 'my'
+p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+p %w[ant bear cat].my_all?(/t/) #=> false
+p [1, 2i, 3.14].my_all?(Numeric) #=> true
+p [nil, true, 99].my_all? #=> false
+p [].my_all? # true
+p [1, true, 'hi', []].my_all? # true
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/AbcSize
-# rubocop:enable Metrics/MethodLength:
