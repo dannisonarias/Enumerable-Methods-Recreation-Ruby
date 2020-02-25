@@ -1,5 +1,4 @@
-# frozen_string_literal: true
-# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
 
 # This module is a creation of the original Enumerable
 module Enumerable
