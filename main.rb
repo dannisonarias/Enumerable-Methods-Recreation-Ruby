@@ -108,7 +108,7 @@ module Enumerable
     a = self
     a = *self if is_a? Range
     if init.is_a? Symbol
-      total = a[0]
+      total = first
       a.shift
       sym = init
       a.each { |k| total = total.send(sym, k) }
@@ -116,7 +116,7 @@ module Enumerable
     elsif init.is_a? Numeric
       total = init
     else
-      total = a[0]
+      total = first
       a.shift
     end
     if sym.nil? && !block_given?
@@ -127,10 +127,11 @@ module Enumerable
     total
   end
 
-  end
   def multiply_els
     my_inject { |total, value| total * value }
   end
 end
+
+p [1,2,3,4].my_inject(1)
 
 # rubocop:enable Metrics/CyclomaticComplexity
