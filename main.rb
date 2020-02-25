@@ -1,4 +1,4 @@
-# rubocop:disable Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
+# rubocop:disable Metrics/ModuleLength,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
 
 # This module is a creation of the original Enumerable
 module Enumerable
@@ -131,4 +131,4 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-# rubocop:enable Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
+# rubocop:enable Metrics/ModuleLength,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
