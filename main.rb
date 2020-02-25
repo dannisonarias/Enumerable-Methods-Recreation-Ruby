@@ -62,6 +62,8 @@ module Enumerable
       my_each do |i|
         return true if i == true
       end
+    elsif !param.nil?
+      my_each { |i| return true if i == param }
     elsif param.is_a? Class
       my_each do |i|
         return true if i.is_a?(param)
@@ -119,19 +121,6 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-p %w[ant bear cat].all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].all?(/t/) #=> false
-p [1, 2i, 3.14].all?(Numeric) #=> true
-p [nil, true, 99].all? #=> false
-p [].all? # true
-p [1, true, 'hi', []].all? # true
-p 'my'
-p %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-p %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
-p %w[ant bear cat].my_all?(/t/) #=> false
-p [1, 2i, 3.14].my_all?(Numeric) #=> true
-p [nil, true, 99].my_all? #=> false
-p [].my_all? # true
-p [1, true, 'hi', []].my_all? # true
+p %w[cat door rod blade].any?('cat') => true
+p %w[cat door rod blade].my_any?('cat') => true
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
