@@ -99,6 +99,7 @@ module Enumerable
   end
 
   def my_map
+    return "LocalJumpError:no block given (yield)" if !block_given?
     result_array = []
     my_each { |i| result_array.push(yield(i)) }
     result_array
@@ -121,6 +122,4 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-p [5, 'door', 'rod', 'blade'].none?(5) => false
-p [5, 'door', 'rod', 'blade'].my_none?(5) => false
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
