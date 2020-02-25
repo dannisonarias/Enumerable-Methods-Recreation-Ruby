@@ -74,7 +74,7 @@ module Enumerable
 
   def my_none?(param = nil)
     result = true
-    result = false if my_any?
+    result = false if my_any?(param)
     if block_given?
       my_each { |i| result = false if yield(i) }
     elsif param.is_a? Regexp
@@ -121,6 +121,6 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-p %w[cat door rod blade].any?('cat') => true
-p %w[cat door rod blade].my_any?('cat') => true
+p [5, 'door', 'rod', 'blade'].none?(5) => false
+p [5, 'door', 'rod', 'blade'].my_none?(5) => false
 # rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
