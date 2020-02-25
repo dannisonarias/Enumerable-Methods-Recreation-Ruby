@@ -131,4 +131,4 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
