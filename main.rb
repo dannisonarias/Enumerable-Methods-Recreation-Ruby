@@ -131,7 +131,4 @@ module Enumerable
     my_inject { |total, value| total * value }
   end
 end
-
-p [1,2,3,4].my_inject(1)
-
 # rubocop:enable Metrics/CyclomaticComplexity
