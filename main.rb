@@ -132,4 +132,3 @@ module Enumerable
   end
 end
 # rubocop:enable Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective
-
