@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-
-# rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
 
 # This module is a creation of the original Enumerable
 module Enumerable
@@ -34,7 +33,7 @@ module Enumerable
     test_all = true
 
     if !block_given? && param.nil?
-      my_each { |i| test_all = false unless i == false || nil }
+      my_each { |i| test_all = false if [false, nil].include? i }
     elsif block_given? && param.nil?
       my_each { |i| test_all = false unless yield(i) }
     elsif param.is_a? Regexp
@@ -85,7 +84,7 @@ module Enumerable
     result
   end
 
-  def my_count(param = nil)  
+  def my_count(param = nil)
     count = 0
     unless param.nil?
       length.times { |num| count += 1 if self[num] == param }
@@ -99,27 +98,40 @@ module Enumerable
   end
 
   def my_map
-    return "LocalJumpError:no block given (yield)" if !block_given?
+    return to_enum :my_each_with_index unless block_given?
+
     result_array = []
     my_each { |i| result_array.push(yield(i)) }
     result_array
   end
 
   def my_inject(init = nil, sym = nil)
-    total = 0
-    total = self[0] if init.nil?
-    shift if init.nil?
-    total = init unless init.nil?
+    a = self
+    a = *self if is_a? Range
+    if init.is_a? Symbol
+      total = a[0]
+      a.shift
+      sym = init
+      a.each { |k| total = total.send(sym, k) }
+      return total
+    elsif init.is_a? Numeric
+      total = init
+    else
+      total = a[0]
+      a.shift
+    end
     if sym.nil? && !block_given?
-      each { |k| total += k }
-    elsif sym.nil? && block_given?
-      each { |k| total = yield(total, k) }
+      a.each { |k| total += k }
+    elsif block_given?
+      a.each { |k| total = yield(total, k) }
     end
     total
   end
 
+  end
   def multiply_els
     my_inject { |total, value| total * value }
   end
 end
-# rubocop:enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+
+# rubocop:enable Metrics/CyclomaticComplexity
