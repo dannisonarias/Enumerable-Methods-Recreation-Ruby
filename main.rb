@@ -104,7 +104,7 @@ module Enumerable
     result_array
   end
 
-   def my_inject(init = nil, sym = nil)
+  def my_inject(init = nil, sym = nil)
     a = self
     a = *self if is_a? Range
     if init.is_a? Symbol
@@ -117,7 +117,7 @@ module Enumerable
       total = init
       a.each { |k| total = total.send(sym, k) }
       total
-    elsif (init.is_a? Numeric) && (block_given?)
+    elsif (init.is_a? Numeric) && block_given?
       total = init
       a.each { |k| total += k }
       total
@@ -130,11 +130,6 @@ module Enumerable
     end
     total
   end
-
-  def multiply_els
-    my_inject { |total, value| total * value }
-  end
-end
 
   def multiply_els
     my_inject { |total, value| total * value }
