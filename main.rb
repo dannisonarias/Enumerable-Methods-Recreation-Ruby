@@ -56,7 +56,7 @@ module Enumerable
       my_each { |i| return true if yield(i) }
     elsif param.nil?
       my_each do |i|
-        return true if ![false, nil].include? i
+        return true unless [false, nil].include? i
       end
     elsif param.is_a? Regexp
       my_each { |num| result = true if num =~ param }
