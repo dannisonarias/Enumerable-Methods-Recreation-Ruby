@@ -104,28 +104,37 @@ module Enumerable
     result_array
   end
 
-  def my_inject(init = nil, sym = nil)
+   def my_inject(init = nil, sym = nil)
     a = self
     a = *self if is_a? Range
     if init.is_a? Symbol
-      total = a[0]
+      total = first
       a.shift
       sym = init
       a.each { |k| total = total.send(sym, k) }
-      return total
-    elsif init.is_a? Numeric
+      total
+    elsif sym.is_a? Symbol
       total = init
-    else
+      a.each { |k| total = total.send(sym, k) }
+      total
+    elsif (init.is_a? Numeric) && (block_given?)
+      total = init
+      a.each { |k| total += k }
+      total
+    end
+    if block_given?
       total = first
       a.shift
-    end
-    if sym.nil? && !block_given?
-      a.each { |k| total += k }
-    elsif block_given?
       a.each { |k| total = yield(total, k) }
+      total
     end
     total
   end
+
+  def multiply_els
+    my_inject { |total, value| total * value }
+  end
+end
 
   def multiply_els
     my_inject { |total, value| total * value }
