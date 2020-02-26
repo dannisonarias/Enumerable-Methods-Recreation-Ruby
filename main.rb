@@ -30,7 +30,6 @@ module Enumerable
 
   def my_all?(param = nil)
     test_all = true
-
     if !block_given? && param.nil?
       my_each { |i| test_all = false if [false, nil].include? i }
     elsif block_given? && param.nil?
@@ -45,7 +44,8 @@ module Enumerable
       my_each do |i|
         test_all = false unless i.is_a?(param)
       end
-      test_all
+    elsif !param.nil?
+      my_each { |i| test_all = false unless i === param }
     end
     test_all
   end
