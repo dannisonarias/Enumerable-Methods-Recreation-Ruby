@@ -54,18 +54,18 @@ module Enumerable
     result = false
     if block_given? && param.nil?
       my_each { |i| return true if yield(i) }
-    elsif param.is_a? Regexp
-      my_each { |num| result = true if num =~ param }
     elsif param.nil?
       my_each do |i|
-        return true if i == true
+        return true if ![false, nil].include? i
       end
-    elsif !param.nil?
-      my_each { |i| return true if i == param }
+    elsif param.is_a? Regexp
+      my_each { |num| result = true if num =~ param }
     elsif param.is_a? Class
       my_each do |i|
         return true if i.is_a?(param)
       end
+    elsif !param.nil?
+      my_each { |i| return true if i == param }
     end
     result
   end
@@ -108,7 +108,7 @@ module Enumerable
     a = self
     a = *self if is_a? Range
     if init.is_a? Symbol
-      total = first
+      total = a[0]
       a.shift
       sym = init
       a.each { |k| total = total.send(sym, k) }
