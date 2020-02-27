@@ -72,8 +72,11 @@ module Enumerable
 
   def my_none?(param = nil)
     result = true
-    result = false if my_any?(param)
-    if block_given?
+    if !block_given? && param.nil?
+      result = false if my_any?(param)
+    elsif param.is_a? String
+      result = false if my_any?(param)
+    elsif block_given?
       my_each { |i| result = false if yield(i) }
     elsif param.is_a? Regexp
       my_each { |num| result = false if num =~ param }
