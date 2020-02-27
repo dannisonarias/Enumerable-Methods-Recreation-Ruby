@@ -133,9 +133,8 @@ module Enumerable
     end
     total
   end
-
-  def multiply_els
-    my_inject { |total, value| total * value }
-  end
+end
+def multiply_els(arr)
+  arr.my_inject { |total, value| total * value }
 end
 # rubocop:enable Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective,Lint/Syntax
