@@ -78,6 +78,8 @@ module Enumerable
       result = false if my_any?(param)
     elsif block_given?
       my_each { |i| result = false if yield(i) }
+    elsif param.is_a? Numeric
+      result = false if my_any?(param)
     elsif param.is_a? Regexp
       my_each { |num| result = false if num =~ param }
     elsif param.is_a? Class
@@ -122,10 +124,12 @@ module Enumerable
       total
     elsif (init.is_a? Numeric) && block_given?
       total = init
-      a.each { |k| total += k }
+      a.each do |i|
+          total = yield(total,i)
+          total
+      end
       total
-    end
-    if block_given?
+    elsif block_given? && init.nil?
       total = first
       a.shift
       a.each { |k| total = yield(total, k) }
