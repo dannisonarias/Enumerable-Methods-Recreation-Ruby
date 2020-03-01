@@ -101,15 +101,23 @@ module Enumerable
     count
   end
 
+  def range_to_arr
+    a = self
+    a = *self if is_a? Range
+    a
+  end
+
   def my_map(&my_proc)
     return to_enum :my_each_with_index unless block_given? || my_proc.is_a?(Proc)
 
+    a = self
+    a = range_to_arr if is_a?(Range)
     result_array = []
     if my_proc.is_a? Proc
-      my_each { |i| result_array.push(my_proc.call(i)) }
+      a.my_each { |i| result_array.push(my_proc.call(i)) }
       result_array
     elsif block_given?
-      my_each { |i| result_array.push(yield(i)) }
+      a.my_each { |i| result_array.push(yield(i)) }
     end
     result_array
   end
