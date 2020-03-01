@@ -147,7 +147,7 @@ module Enumerable
       total
     elsif block_given? && init.nil?
       total = first
-      a.my_each_with_index { |k,i| total = yield(total, k) if i.positive? }
+      a.my_each_with_index { |k, i| total = yield(total, k) if i.positive? }
     end
     total
   end
