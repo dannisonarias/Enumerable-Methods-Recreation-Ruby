@@ -115,22 +115,27 @@ module Enumerable
   end
 
   def my_inject(init = nil, sym = nil)
+    mathoperators = ['+' ,'-' ,'*', '/' ,'%' ,'**']
+    init = init.to_sym if mathoperators.include?(init)
+    sym = sym.to_sym if mathoperators.include?(sym)
     a = self
     a = *self if is_a? Range
     if init.is_a? Symbol
       total = first
       a.shift
-      sym = init
+      sym = init.to_sym
       a.each { |k| total = total.send(sym, k) }
       total
     elsif sym.is_a? Symbol
       total = init
+      sym = sym.to_sym
       a.each { |k| total = total.send(sym, k) }
       total
     elsif (init.is_a? Numeric) && block_given?
       total = init
       a.each do |i|
-        total = yield(total, i)
+          total = yield(total,i)
+          total
       end
       total
     elsif block_given? && init.nil?
