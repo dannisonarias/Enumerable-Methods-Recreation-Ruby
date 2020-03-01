@@ -131,7 +131,7 @@ module Enumerable
     if init.is_a? Symbol
       total = first
       sym = init.to_sym
-      a.each_with_index { |k, i| total = total.send(sym, k) if i.positive?  }
+      a.each_with_index { |k, i| total = total.send(sym, k) if i.positive? }
       total
     elsif sym.is_a? Symbol
       total = init
