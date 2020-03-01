@@ -130,9 +130,8 @@ module Enumerable
     a = *self if is_a? Range
     if init.is_a? Symbol
       total = first
-      a.shift
       sym = init.to_sym
-      a.each { |k| total = total.send(sym, k) }
+      a.each_with_index { |k, i| total = total.send(sym, k) if i.positive?  }
       total
     elsif sym.is_a? Symbol
       total = init
@@ -156,3 +155,7 @@ def multiply_els(arr)
   arr.my_inject { |total, value| total * value }
 end
 # rubocop:enable Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective,Lint/Syntax
+array = Array.new(100) { rand(0...9) } 
+range = Range.new(5, 50) 
+p array.my_inject(:+) == array.inject(:+) #true
+p range.my_inject(2, :*) == range.inject(2, :*) #true
