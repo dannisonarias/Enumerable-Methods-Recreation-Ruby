@@ -115,7 +115,7 @@ module Enumerable
   end
 
   def my_inject(init = nil, sym = nil)
-    mathoperators = ['+' ,'-' ,'*', '/' ,'%' ,'**']
+    mathoperators = ['+', '-', '*', '/', '%', '**']
     init = init.to_sym if mathoperators.include?(init)
     sym = sym.to_sym if mathoperators.include?(sym)
     a = self
@@ -134,8 +134,7 @@ module Enumerable
     elsif (init.is_a? Numeric) && block_given?
       total = init
       a.each do |i|
-          total = yield(total,i)
-          total
+        total = yield(total, i)
       end
       total
     elsif block_given? && init.nil?
