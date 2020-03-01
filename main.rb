@@ -155,7 +155,3 @@ def multiply_els(arr)
   arr.my_inject { |total, value| total * value }
 end
 # rubocop:enable Metrics/MethodLength,Metrics/ModuleLength,Metrics/CyclomaticComplexity,Style/CaseEquality,Metrics/PerceivedComplexity,Lint/RedundantCopDisableDirective,Lint/Syntax
-array = Array.new(100) { rand(0...9) } 
-range = Range.new(5, 50) 
-p array.my_inject(:+) == array.inject(:+) #true
-p range.my_inject(2, :*) == range.inject(2, :*) #true
