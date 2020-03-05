@@ -8,19 +8,11 @@ RSpec.describe Enumerable do
   let(:array5) { [1, 5, 3, 4] }
 
   describe 'test my each method with different inputs' do
-    it 'test my_each method with array of integers' do
-      expect(array1.my_each { |i| p i + 1 }).to eql(array1.each { |i| p i + 1 })
-    end
-
-    it 'test my each method with array of strings' do
-      expect(array_strings.my_each { |i| p i + '1' }).to eql(array_strings.each { |i| p i + '2' })
-    end
-
-    it 'test my each method with no block given, same array - converts output to array' do
+    it 'test my each method with no block given, tests same array outputs - converts output to array' do
       expect(array_strings.my_each.to_a).to eql(array_strings.each.to_a)
     end
 
-    it 'test my each method with no block given, same class enumerator' do
+    it 'test my each method with no block given, tests same class enumerator' do
       expect(array_strings.my_each.class).to eql(array_strings.each.class)
     end
   end
@@ -99,7 +91,7 @@ RSpec.describe Enumerable do
     end
   end
 
-  describe 'test my_map method with different inputs' do
+  describe 'test my_map method with different inputs including procs' do
     it 'test my_map to check for elements with length >=3' do
       expect(array_strings.my_map { |word| word.length >= 3 }).to eql(array_strings.map { |word| word.length >= 3 })
     end
@@ -120,8 +112,16 @@ RSpec.describe Enumerable do
       expect(array_strings.my_inject { |memo, word| memo.length > word.length ? memo : word }).to eql(array_strings.inject { |memo, word| memo.length > word.length ? memo : word })
     end
 
-    it "test my_inject to match a 'Numeric' data type " do
+    it "test my_inject to match a 'Numeric' data type and accumulate sum " do
       expect(array5.my_inject { |total, i| total + i }).to eql(13)
+    end
+
+    it 'test my_inject to work with a numeric operation using symbol parameter :+ ' do
+      expect(array5.my_inject(:+)).to eql(array5.inject(:+))
+    end
+
+    it 'test my_inject to work with a numeric operation using symbol parameter :+, and an initial memo value ' do
+      expect(array5.my_inject(5, :+)).to eql(array5.inject(5, :+))
     end
   end
 end
