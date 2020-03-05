@@ -2,8 +2,10 @@ require "./main"
 RSpec.describe Enumerable do
     let(:array1) {[1,2,3,4,5,6,7,8,9,10]}
     let(:array_strings) {%w[cat dog monkey lion elephant]}
-    let(:array_mix) {[1, "b", 3.14]}
-    let(:all_nil) {[nil,nil,nil,nil]}
+    let(:array_mix) {[1, "b", 3.14, 4]}
+    let(:array5) {[1, 5,3,4]}
+
+
 
     describe "test my each method with different inputs" do
         it "test my_each method with array of integers" do
@@ -58,6 +60,75 @@ RSpec.describe Enumerable do
         end
         it "test my_all to match a 'Numeric' data type " do
             expect(array_mix.my_all?(Numeric)).to eql(array_mix.my_all?(Numeric))
+        end
+
+    end
+
+    describe "test my_any? method with different inputs" do
+        it "test my_any? to check for elements with length >=3" do
+            expect(array_strings.my_any? { |word| word.length >= 3 }).to eql(array_strings.any? { |word| word.length >= 3 })
+        end
+        it "test ? to look for a special regexp character 'a'" do
+            expect(array_strings.my_any?(/a/)).to eql(array_strings.any?(/a/))
+        end
+        it "test my_any? to match a 'Numeric' data type " do
+            expect(array_mix.my_any?(Numeric)).to eql(array_mix.any?(Numeric))
+        end
+
+    end
+
+    describe "test my_none? method with different inputs" do
+        it "test my_none? to check for elements with length >=3" do
+            expect(array_strings.my_none? { |word| word.length >= 3 }).to eql(array_strings.none? { |word| word.length >= 3 })
+        end
+        it "test my_none? to look for a special regexp character 'a'" do
+            expect(array_strings.my_none?(/a/)).to eql(array_strings.none?(/a/))
+        end
+        it "test my_none? to match a 'Numeric' data type " do
+            expect(array_mix.my_none?(Numeric)).to eql(array_mix.none?(Numeric))
+        end
+
+    end
+
+    describe "test my_count method with different inputs" do
+        it "test my_count to check for elements with length >=3" do
+            expect(array_strings.my_count { |word| word.length >= 3 }).to eql(array_strings.count { |word| word.length >= 3 })
+        end
+        it "test my_count? to look for a special regexp character 'a'" do
+            expect(array_strings.my_count(/a/)).to eql(array_strings.count(/a/))
+        end
+        it "test my_count to match a 'Numeric' data type " do
+            expect(array_mix.my_count(Numeric)).to eql(array_mix.count(Numeric))
+        end
+
+    end
+
+    describe "test my_map method with different inputs" do
+        it "test my_map to check for elements with length >=3" do
+            expect(array_strings.my_map { |word| word.length >= 3 }).to eql(array_strings.map { |word| word.length >= 3 })
+        end
+        it "test my_map to look for a special regexp character 'a'" do
+            expect(array_strings.my_map{|i| i.match(/[a-z]/)}).to eql(array_strings.map{|i| i.match(/[a-z]/)})
+        end
+        it "test my_map to match a 'Numeric' data type " do
+            expect(array_mix.my_map{|i| i.is_a? Numeric}).to eql(array_mix.map{|i| i.is_a? Numeric})
+        end
+        it "testing my map to accept a proc" do
+            proc1 = proc{ |x| x / 2.0 > 3.0 }
+            expect(array1.my_map(&proc1)).to eql(array1.map(&proc1))
+        end
+
+    end
+
+    describe "test my_inject method with different inputs" do
+
+        it "return the string with the longest .length" do
+            expect(array_strings.my_inject { |memo, word| memo.length > word.length ? memo : word }
+            ).to eql(array_strings.inject { |memo, word| memo.length > word.length ? memo : word }) 
+        end
+
+        it "test my_inject to match a 'Numeric' data type " do
+            expect(array5.my_inject{|total,i| total + i}).to eql(13)
         end
 
     end
